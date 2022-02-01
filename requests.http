@@ -1,0 +1,6 @@
+GET http://localhost:3000/v1/users
+Content-Type: application/json
+###
+
+GET http://localhost:3000/v1/systemInfo
+Content-Type: application/json
