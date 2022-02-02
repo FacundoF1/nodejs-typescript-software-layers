@@ -1,10 +1,10 @@
 export class Account {
-    public user: string;
-    public pass: string;
+    public username: string;
+    public password: string;
 
     constructor(data) {
-        this.user = data.user;
-        this.pass = data.pass;
+        this.username = data.username;
+        this.password = data.password;
     }
 }
 
@@ -13,13 +13,28 @@ export class modelAuthLogin extends Account {
 }
 
 export interface Handler {
-    handlerRequest(): void
+    handleRequest(): void
 }
 
 export interface SessionToken {
-    tokenId: string;
+    tokenId: string,
+    username: string,
+    valid: boolean,
+    expirationTime: Date,
+    accessRights: AccessRight[]
 }
 
 export interface TokenGenerator {
     generatorToken(account: Account | undefined): Promise<SessionToken | undefined>
+}
+
+export enum AccessRight {
+    CREATE,
+    READ,
+    UPDATE,
+    DELETE
+}
+
+export interface UserCredential extends Account {
+    accessRights: AccessRight[]
 }
