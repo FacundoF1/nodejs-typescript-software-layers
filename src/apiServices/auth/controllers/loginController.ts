@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { Account, Handler, modelAuthLogin, TokenGenerator } from "../model";
+import { Authorizer } from '../services';
 
 export class LoginHandler implements Handler {
 
@@ -15,8 +16,9 @@ export class LoginHandler implements Handler {
     async handleRequest() {
         try {
             const body = this.getRequestBody();
-            const sessionToken = await this.tokenGenerator.generatorToken(body);
-            !sessionToken
+            const sessionToken = await new Authorizer().generatorToken(body)
+            console.log('result: ', sessionToken)
+            sessionToken
                 ? this._res.json(new Error('Not found')).end()
                 : this._res.json(body).end();
         } catch (error) {
@@ -28,11 +30,13 @@ export class LoginHandler implements Handler {
     private getRequestBody(): Account | undefined {
         try {
             const { body } = this._req;
-            console.log('llega body: ', body);
-            return new modelAuthLogin(body);
+            const result = new modelAuthLogin(body);
+            const isValidateModel = Object.keys(result).length > 0;
+            return isValidateModel ? result : undefined;
         } catch (error) {
             this._req.on('error', (error) => console.error(error));
             this._res.sendStatus(404).end();
+            return new modelAuthLogin({});
         }
     }
 }

@@ -18,10 +18,10 @@ export interface Handler {
 
 export interface SessionToken {
     tokenId: string,
-    username: string,
-    valid: boolean,
-    expirationTime: Date,
-    accessRights: AccessRight[]
+    // username: string,
+    // valid: boolean,
+    // expirationTime: Date,
+    // accessRights: AccessRight[]
 }
 
 export interface TokenGenerator {
