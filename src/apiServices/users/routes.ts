@@ -1,8 +1,8 @@
 import express from '@awaitjs/express';
-import controller from './controller';
+import controllers from './controllers';
 // import { expressCacheMiddleware } from '../../middleware/cache';
 
-const { getUsers, getUser, deleteUser, updateUser, createUser } = controller;
+const { getUsers, getUser, deleteUser, updateUser, createUser } = controllers;
 const router = express.Router();
 
 router.getAsync('/', getUsers);

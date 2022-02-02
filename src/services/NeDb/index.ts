@@ -1,5 +1,19 @@
-import Datastore from 'nedb';
+import Nedb from 'nedb';
+class ConnectionNeDB {
 
-const userCollection = new Datastore();
+    private nedb: Nedb | any;
+    constructor() {
+        this.nedb = new Nedb('../../../database/UserCredentials.db');
+        this.nedb.loadDatabase();
+    }
 
-export { userCollection };
+    public connectionNeDB() {
+        return this.nedb;
+    }
+}
+
+const userCollection: Nedb = new ConnectionNeDB().connectionNeDB()
+
+export {
+    userCollection
+};

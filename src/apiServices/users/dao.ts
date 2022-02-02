@@ -1,9 +1,10 @@
 import { userCollection } from '../../services/NeDb';
+// const { userCollection } = connNeDb;
 
 export = {
   async getUsers(page, limit) {
-    return new Promise((resolve, reject) => userCollection
-      .find({}).skip(page * limit).limit(limit).exec((err, docs) => {
+    return new Promise((resolve, reject) => userCollection.find({})
+      .skip(page * limit).limit(limit).exec((err, docs) => {
         if (err) return reject(err);
         return resolve(docs);
       }));
@@ -18,6 +19,7 @@ export = {
 
   async createUser(user) {
     return new Promise((resolve, reject) => userCollection.insert(user, (err, docs) => {
+      console.log(err, docs);
       if (err) return reject(err);
       return resolve(docs);
     }));
