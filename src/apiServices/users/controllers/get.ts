@@ -28,7 +28,7 @@ class getUsers {
 
         const users = await userModel.getUsers(res_page, res_limit);
 
-        return this._res.send(userDto.multiple(users, user)).end();
+        return this._res.send(userDto.multiple(users)).end();
     }
 
 }
@@ -47,17 +47,42 @@ class getUser {
     async handleRequest() {
 
         // lack validate type de carateres query
-        const { params: { id }, user: user_request } = this._req;
-
-        const user = await userModel.getUser(id);
+        const { params: { id }, body } = this._req;
+        const user = await userModel.getUserForId(id);
         if (!user) return this._res.sendStatus(404);
 
-        return this._res.send(userDto.single(user, user_request)).end();
+        return this._res.send(userDto.single(user)).end();
+    }
+
+}
+
+@countInstances
+class postUserForBody {
+
+    private _req: Request | any;
+    private _res: Response;
+
+    constructor(req: Request, res: Response) {
+        this._req = req;
+        this._res = res;
+    }
+
+    async handleRequest() {
+
+        // lack validate type de carateres query
+        const { body } = this._req;
+        const user = await userModel.getUser(body);
+        console.log('res getUserForBody', user, body);
+        if (!user) return this._res.sendStatus(404);
+
+        // userDto.single(user)
+        return this._res.json(user).end();
     }
 
 }
 
 export {
     getUser,
-    getUsers
+    getUsers,
+    postUserForBody
 }

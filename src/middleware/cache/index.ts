@@ -1,9 +1,9 @@
 import { expressCacheMiddleware } from './expressCache';
-//   redisCache = require('./redisCache'),
+import { redisMiddleware } from './redisCache';
 //   flatCache = require('./flatCache');
 
 export {
   expressCacheMiddleware,
   // flatCache,
-  // redisCache
+  redisMiddleware
 };

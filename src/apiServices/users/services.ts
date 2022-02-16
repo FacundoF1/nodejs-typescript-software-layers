@@ -1,4 +1,4 @@
-import userDao from './dao';
+import * as userDao from './dao';
 
 export default {
 
@@ -6,8 +6,12 @@ export default {
         return userDao.getUsers(page, limit);
     },
 
-    async getUser(id) {
-        return userDao.getUser(id);
+    async getUser(data): Promise<[]> {
+        return userDao.getUser(data);
+    },
+
+    async getUserForId(data): Promise<[]> {
+        return userDao.getUser(data);
     },
 
     async createUser(user) {

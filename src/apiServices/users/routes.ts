@@ -1,13 +1,14 @@
 import express from '@awaitjs/express';
 import controllers from './controllers';
-// import { expressCacheMiddleware } from '../../middleware/cache';
+import { redisMiddleware } from '../../middleware/cache';
 
-const { getUsers, getUser, deleteUser, updateUser, createUser } = controllers;
+const { getUsers, getUser, deleteUser, updateUser, createUser, postUserForBody } = controllers;
 const router = express.Router();
 
-router.getAsync('/', getUsers);
+router.getAsync('/', redisMiddleware, getUsers);
 router.postAsync('/', createUser);
 router.getAsync('/:id', getUser);
+router.postAsync('/body', postUserForBody);
 router.patchAsync('/:id', updateUser);
 router.deleteAsync('/:id', deleteUser);
 

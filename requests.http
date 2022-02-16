@@ -9,7 +9,8 @@ POST http://localhost:3000/v1/auth/login
 Content-Type: application/json
 
 {
-    "user": "faq",
-    "pass": "123",
+    "username": "facundo",
+    "password": "123456",
+    "email": "a@a.com",
     "malicius": "x</asss>"
 }

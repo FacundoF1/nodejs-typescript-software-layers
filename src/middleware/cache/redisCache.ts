@@ -1,16 +1,18 @@
+
 import { createClient } from 'redis';
 
-const client = createClient();
-
 // create redis middleware
-const redisMiddleware = async (req, res, next) => {
+export const redisMiddleware = async (req, res, next) => {
+    const client = createClient();
 
-    client.on('error', (err) => { console.log('Redis Client Error', err); return client.disconnect(); });
+    client.on('error', (err) => console.log('Redis Client Error', err));
 
     await client.connect();
-    const key = "__expIress__" + req.originalUrl || req.url;
+    const key = "__expIress__1+" + req.originalUrl || req.url;
 
     const reply = await client.get(key);
+
+    console.log('reply', reply);
 
     if (reply) {
         console.log('if');
@@ -28,4 +30,43 @@ const redisMiddleware = async (req, res, next) => {
     await client.disconnect();
 };
 
-export default redisMiddleware
+
+// @countInstances
+// class redisMiddleware {
+
+//     private _req: Request | any;
+//     private _res: Response | any;
+//     private client = createClient();
+//     private _next;
+
+//     constructor(req: Request, res: Response, next) {
+//         this._req = req;
+//         this._res = res;
+//         this._next = next;
+//     }
+
+//     async handleRequest() {
+//         this.client.on('error', (err) => err);
+//         await this.client.connect();
+//         const key = "__expIress__" + this._req.originalUrl || this._req.url;
+
+//         const reply = await this.client.get(key);
+
+//         if (reply) {
+//             console.log('if');
+//             const response = JSON.parse(reply);
+//             this._res.send(response);
+//         } else {
+//             console.log('else');
+//             this._res.sendResponse = this._res.send;
+//             this._res.send = async (body) => {
+//                 await this.client.set(key, body);
+//                 this._res.sendResponse(body);
+//             }
+//             this._next();
+//         }
+//         await this.client.disconnect();
+
+//     }
+
+// }

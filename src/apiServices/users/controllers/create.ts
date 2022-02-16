@@ -32,7 +32,7 @@ export class createUser {
             email,
         });
 
-        return this._res.send(userDto.single(users, user)).end();
+        return this._res.send(userDto.single(users)).end();
     }
 
 }

@@ -16,23 +16,28 @@ export class LoginHandler implements Handler {
     async handleRequest() {
         try {
             const body = this.getRequestBody();
-            const sessionToken = await new Authorizer().generatorToken(body)
-            console.log('result: ', sessionToken)
+            // validate result session Token
+            if ( !body ) this._res.status(404).end();
+            const { username, password } = body;
+            const sessionToken = await new Authorizer().generatorToken({ username, password }); // viene undefined
+
             sessionToken
-                ? this._res.json(new Error('Not found')).end()
-                : this._res.json(body).end();
+                ? this._res.json({...body, sessionToken}).end()
+                : this._res.status(404).end()
+
         } catch (error) {
             this._res.sendStatus(404).end();
         }
 
     }
 
-    private getRequestBody(): Account | undefined {
+    private getRequestBody(): Account {
         try {
             const { body } = this._req;
             const result = new modelAuthLogin(body);
             const isValidateModel = Object.keys(result).length > 0;
-            return isValidateModel ? result : undefined;
+            if( !isValidateModel ){ throw new Error('No se encontraron los datos'); }
+            return result;
         } catch (error) {
             this._req.on('error', (error) => console.error(error));
             this._res.sendStatus(404).end();
