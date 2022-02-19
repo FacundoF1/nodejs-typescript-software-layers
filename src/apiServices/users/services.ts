@@ -1,30 +1,37 @@
 import { connectionNeDB } from '../../services/NeDb/dao';
-const userDao = new connectionNeDB( 'user' );
+export class UserDBAccess<T> {
 
-export default {
+    private userDao: connectionNeDB<T> = new connectionNeDB<T>('userCredentials');
 
-    async getUsers(page, limit) {
-        return userDao.getAlls(page, limit);
-    },
+    public async getUsers(page, limit) {
+        return this.userDao.getAlls(page, limit);
+    };
 
-    async getUser(data): Promise<[]> {
-        return userDao.get(data);
-    },
+    public async getUser(data): Promise<T[]> {
+        return this.userDao.get(data);
+    };
 
-    async getUserForId(id): Promise<[]> {
-        return userDao.get(id);
-    },
+    public async getUserForId(id): Promise<T> {
+        return this.userDao.getForId(id);
+    };
 
-    async createUser(user) {
-        return userDao.create(user);
-    },
+    public async createUser(user) {
+        return this.userDao.create(user);
+    };
 
-    async updateUser(id, { email, username }) {
-        return userDao.update(id, { email, username });
-    },
-
-    async deleteUser(id) {
-        return userDao.delete(id);
+    public async updateUser(user: T | any ): Promise<T> {
+        try {
+            const { id: _id } = user;
+            if (!_id) { throw new Error('UserDBAccess: updateUser not found'); }
+            const result: T = await this.userDao.update(_id, user);
+            return result;
+        } catch (error) {
+            return error;
+        }
     }
 
-};
+    public async deleteUser(id) {
+        return this.userDao.delete(id);
+    };
+
+}

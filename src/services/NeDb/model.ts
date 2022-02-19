@@ -1,4 +1,5 @@
 export enum DBAccessModel {
-    user = 'UserCredentials',
+    user = 'Users',
+    userCredentials = 'UserCredentials',
     session = 'SessionCredentials'
 }

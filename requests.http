@@ -14,3 +14,15 @@ Content-Type: application/json
     "email": "a@a.com",
     "malicius": "x</asss>"
 }
+
+PATCH http://localhost:3000/v1/users
+Content-Type: application/json
+
+{
+    "id": "vBONvkkMUTyzrv0a",
+    "username": "facundo",
+    "password": "123456",
+    "age": "30",
+    "name": "facundo",
+    "workingPosition": 3
+}

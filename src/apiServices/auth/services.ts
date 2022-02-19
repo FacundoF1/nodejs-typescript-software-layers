@@ -47,6 +47,7 @@ export class UserCredentialsDBAccess {
     }
 
 }
+
 export class Authorizer implements TokenGenerator {
     private userCredDBAccess: UserCredentialsDBAccess = new UserCredentialsDBAccess();
     private sessionTokenDBAccess: SessionTokenDBAccess = new SessionTokenDBAccess();
