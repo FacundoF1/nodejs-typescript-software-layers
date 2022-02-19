@@ -1,5 +1,15 @@
-import Datastore from 'nedb';
+import { DBAccessModel } from './model';
+import Nedb from 'nedb';
+export class ConnectionNeDB {
 
-const userCollection = new Datastore();
+    private nedb: Nedb | any;
 
-export { userCollection };
+    constructor( nameDBAccess: DBAccessModel ) {
+        this.nedb = new Nedb(`database/${nameDBAccess}.db`);
+        this.nedb.loadDatabase();
+    }
+
+    public connectionNeDB() {
+        return this.nedb;
+    }
+}

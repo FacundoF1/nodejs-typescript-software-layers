@@ -1,5 +1,5 @@
 import express from '@awaitjs/express';
-import controller from './controller';
+import controller from './controllers';
 // import { expressCacheMiddleware } from '../../middleware/cache';
 
 const { LoginHandler } = controller;

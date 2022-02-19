@@ -3,4 +3,14 @@ Content-Type: application/json
 ###
 
 GET http://localhost:3000/v1/systemInfo
+###
+
+POST http://localhost:3000/v1/auth/login
 Content-Type: application/json
+
+{
+    "username": "facundo",
+    "password": "123456",
+    "email": "a@a.com",
+    "malicius": "x</asss>"
+}
