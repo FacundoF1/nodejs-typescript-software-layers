@@ -1,5 +1,7 @@
 import { Account, SessionToken, TokenGenerator, UserCredential } from './model';
 import axios from 'axios';
+import { single } from './dto';
+import { connectionNeDB } from '../../services/NeDb/dao';
 
 export const getUser = async (data) => {
     try {
@@ -47,17 +49,45 @@ export class UserCredentialsDBAccess {
 }
 export class Authorizer implements TokenGenerator {
     private userCredDBAccess: UserCredentialsDBAccess = new UserCredentialsDBAccess();
+    private sessionTokenDBAccess: SessionTokenDBAccess = new SessionTokenDBAccess();
 
     async generatorToken(account: Account): Promise<SessionToken | undefined> {
 
         if (!account) { return undefined; }
-
         const { username, password } = account;
-
         const result = await this.userCredDBAccess.getUserCredential(username, password);
 
-        console.log('authorizer: ', result);
+        if( !result ){
+            return;
+        } else {
+            const token: SessionToken = single({
+                tokenId: 'someTokenID',
+                username: username,
+                valid: true,
+                expirationTime: this.generateExpirationTime(),
+                accessRights: result.accessRights
+            });
 
-        return result ? { tokenId: 'someTokenID' } : undefined;
+            await this.sessionTokenDBAccess.storeSessionToken(token);
+            return token;
+        }
+
+    }
+
+    private generateExpirationTime() {
+        return new Date(Date.now() + 60 * 60 * 1000);
+    }
+
+    private generateRandomTokenId(){
+        return Math.random().toString(50).slice(2);
+    }
+}
+
+export class SessionTokenDBAccess {
+
+    private sessionDao = new connectionNeDB('session');
+
+    public async storeSessionToken(token: SessionToken): Promise<unknown>{
+        return await this.sessionDao.create( token )
     }
 }

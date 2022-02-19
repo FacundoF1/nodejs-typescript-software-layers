@@ -1,28 +1,30 @@
-import * as userDao from './dao';
+import { connectionNeDB } from '../../services/NeDb/dao';
+const userDao = new connectionNeDB( 'user' );
 
 export default {
 
     async getUsers(page, limit) {
-        return userDao.getUsers(page, limit);
+        return userDao.getAlls(page, limit);
     },
 
     async getUser(data): Promise<[]> {
-        return userDao.getUser(data);
+        return userDao.get(data);
     },
 
-    async getUserForId(data): Promise<[]> {
-        return userDao.getUser(data);
+    async getUserForId(id): Promise<[]> {
+        return userDao.get(id);
     },
 
     async createUser(user) {
-        return userDao.createUser(user);
+        return userDao.create(user);
     },
 
     async updateUser(id, { email, username }) {
-        return userDao.updateUser(id, { email, username });
+        return userDao.update(id, { email, username });
     },
 
     async deleteUser(id) {
-        return userDao.updateUser(id);
-    },
+        return userDao.delete(id);
+    }
+
 };
