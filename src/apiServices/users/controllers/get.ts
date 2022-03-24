@@ -1,31 +1,29 @@
-import userModel from '../services';
+import { UserDBAccess } from '../services';
 import userDto from '../dto';
 import {
     Request,
     Response
 } from 'express';
 import { systemDecorator } from '../../../decorators';
+import { BaseRequestHandler } from '@software-layes/services/request/BaseRequestHandler';
+import { TokenValidator } from '@software-layes/apiServices/auth/model';
 const { countInstances } = systemDecorator;
+const userModel = new UserDBAccess();
 
 @countInstances
-class getUsers {
-
-    private _req: Request | any;
-    private _res: Response;
+class getUsers extends BaseRequestHandler {
 
     constructor(req: Request, res: Response) {
-        this._req = req;
-        this._res = res;
+        super(req, res)
     }
 
-    async handleRequest() {
+    async handleRequest(): Promise<Response> {
 
         // lack validate type de carateres query
-        const { query: { page, limit }, user } = this._req;
-
+        const { query: { page, limit } } = this._req;
+        console.log('res getUserForBody');
         const res_page = parseInt((page || 0).toString(), 10);
         const res_limit = parseInt((limit || 10).toString(), 10);
-
         const users = await userModel.getUsers(res_page, res_limit);
 
         return this._res.send(userDto.multiple(users)).end();
@@ -34,14 +32,10 @@ class getUsers {
 }
 
 @countInstances
-class getUser {
-
-    private _req: Request | any;
-    private _res: Response;
+class getUser extends BaseRequestHandler {
 
     constructor(req: Request, res: Response) {
-        this._req = req;
-        this._res = res;
+        super(req,res);
     }
 
     async handleRequest() {
@@ -57,14 +51,10 @@ class getUser {
 }
 
 @countInstances
-class postUserForBody {
-
-    private _req: Request | any;
-    private _res: Response;
+class postUserForBody extends BaseRequestHandler {
 
     constructor(req: Request, res: Response) {
-        this._req = req;
-        this._res = res;
+        super(req, res);
     }
 
     async handleRequest() {

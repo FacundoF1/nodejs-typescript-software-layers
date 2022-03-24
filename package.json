@@ -5,8 +5,9 @@
   "author": "Facundo Ferrari",
   "email": "facundo.ferrarif@gmail.com",
   "scripts": {
-    "prestart": "tsc",
-    "start": "nodemon ./bin/www"
+    "prestart": "rm -rf ./dist && tsc",
+    "start": "nodemon ./bin/www",
+    "debug": "nodemon --inspect ./bin/www"
   },
   "dependencies": {
     "@awaitjs/express": "^0.6.1",

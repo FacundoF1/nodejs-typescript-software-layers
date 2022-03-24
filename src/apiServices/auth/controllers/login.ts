@@ -1,32 +1,29 @@
+import { BaseRequestHandler } from "@software-layes/services/request/BaseRequestHandler";
 import { Request, Response } from "express";
-import { Account, Handler, modelAuthLogin, TokenGenerator } from "../model";
+import { Account, modelAuthLogin } from "../model";
 import { Authorizer } from '../services';
 
-export class LoginHandler implements Handler {
-
-    private _req: Request;
-    private _res: Response;
-    private tokenGenerator: TokenGenerator
+export class LoginHandler extends BaseRequestHandler  {
 
     constructor(req: Request, res: Response) {
-        this._req = req;
-        this._res = res;
+        super(req, res);
     }
 
-    async handleRequest() {
+    async handleRequest(): Promise<Response> {
         try {
             const body = this.getRequestBody();
             // validate result session Token
             if ( !body ) this._res.status(404).end();
             const { username, password } = body;
-            const sessionToken = await new Authorizer().generatorToken({ username, password }); // viene undefined
 
-            sessionToken
+            const sessionToken = await new Authorizer().generatorToken({ username, password })[0]; // viene undefined
+
+            return sessionToken
                 ? this._res.json({...body, sessionToken}).end()
                 : this._res.status(404).end()
 
         } catch (error) {
-            this._res.sendStatus(404).end();
+            return this._res.sendStatus(404).end();
         }
 
     }

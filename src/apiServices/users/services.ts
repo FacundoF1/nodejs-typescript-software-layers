@@ -1,7 +1,8 @@
 import { connectionNeDB } from '../../services/NeDb/dao';
+import { UserModel } from './model';
 export class UserDBAccess<T> {
 
-    private userDao: connectionNeDB<T> = new connectionNeDB<T>('userCredentials');
+    private userDao: connectionNeDB<T> = new connectionNeDB<T>('users');
 
     public async getUsers(page, limit) {
         return this.userDao.getAlls(page, limit);
@@ -23,7 +24,8 @@ export class UserDBAccess<T> {
         try {
             const { id: _id } = user;
             if (!_id) { throw new Error('UserDBAccess: updateUser not found'); }
-            const result: T = await this.userDao.update(_id, user);
+            const result: T = await this.userDao.create( user );
+            console.log( 'result', result );
             return result;
         } catch (error) {
             return error;

@@ -1,10 +1,11 @@
-import userModel from '../services';
+import { UserDBAccess } from '../services';
 import {
     Request,
     Response
 } from 'express';
 import { systemDecorator } from '../../../decorators';
 const { countInstances } = systemDecorator;
+const userModel = new UserDBAccess();
 
 @countInstances
 export class deleteUser {

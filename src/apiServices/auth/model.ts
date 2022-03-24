@@ -28,6 +28,22 @@ export interface TokenGenerator {
     generatorToken(account: Account | undefined): Promise<SessionToken | undefined>
 }
 
+export interface TokenValidator {
+    validateToken(tokenId: string): Promise<TokenRights>
+}
+
+
+export interface TokenRights {
+    accessRights: AccessRight[],
+    state: TokenState
+}
+
+export enum TokenState {
+    VALID,
+    INVALID,
+    EXPIRED
+}
+
 export enum AccessRight {
     CREATE,
     READ,

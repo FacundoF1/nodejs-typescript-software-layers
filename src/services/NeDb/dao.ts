@@ -32,7 +32,7 @@ export class connectionNeDB <T> {
     }));
   };
 
-  create = async (data: T) => {
+  create = async (data: T): Promise<T> => {
     return new Promise((resolve, reject) => this.collection.insert(data, (err, docs) => {
       if (err) return reject(err);
       return resolve(docs);
