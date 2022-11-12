@@ -10,7 +10,7 @@ const options = {
     validatorUrl: null,
   },
   swaggerDefinition: configSwaggerJsdoc,
-  apis: ["../../apiServices/**/routes.ts", "../../routes/endpoints.js"],
+  apis: ["../../apiServices/auth/routes.ts", "../../apiServices/users/routes.ts", "../../routes/endpoints.js"],
 };
 
 const specs = swaggerJsdoc(options);
