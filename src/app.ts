@@ -1,14 +1,23 @@
 import express from 'express';
 import logger from 'morgan';
-import routes from './routes';
+import helmet from 'helmet';
+import compression from 'compression';
 import { error404Handler, errorHandler } from './middleware/index';
+
+import endpoints from './routes/endpoints';
+import swaggerDoc from './services/swagger/controller';
 
 const app = express();
 app.use(logger('dev', {}));
-app.use(express.json());
+app.use(express.json({ limit: '100mb' }));
 app.use(express.urlencoded({ extended: false }));
 
-app.use('/v1', routes);
+endpoints(app);
+swaggerDoc(app);
+
+// Seguridad
+app.use( helmet() );
+app.use( compression() );
 
 app.use(error404Handler);
 app.use(errorHandler);
