@@ -1,21 +1,18 @@
-import request from "supertest";
-import { app } from "@app";
+const request = require("supertest");
+const { app } = require("@app");
 
 describe('UT: ', () => {
-    test('routes', () => {
+    test('routes', (done) => {
         request(app)
-            .post('/user')
+            .post('/auth/login')
             .send({
                 "username": "facundo",
                 "password": "123456",
-                "email": "a@a.com",
+                "email": "facundo@gmail.com",
                 "malicius": "x</asss>"
             })
-            .expect('Content-Type', /json/)
-            .expect('Content-Length', '15')
-            .expect(200)
-            .end(function(err, res) {
-                if (err) throw err;
-            });
+            // .expect('Content-Type', "text/html; charset=utf-8")
+            // .expect('Content-Length', '640')
+            .expect(200, done);
     })
 })

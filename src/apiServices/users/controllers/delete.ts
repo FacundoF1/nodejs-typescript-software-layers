@@ -4,10 +4,11 @@ import {
     Response
 } from 'express';
 import { systemDecorator } from '@decorators/index';
+import { Handler } from '../model';
 const { countInstances } = systemDecorator;
 
 @countInstances
-export class deleteUser {
+export class DeleteUser implements Handler {
 
     private _req: Request | any;
     private _res: Response;
@@ -15,7 +16,6 @@ export class deleteUser {
     constructor(req: Request, res: Response) {
         this._req = req;
         this._res = res;
-        this.handleRequest = this.handleRequest.bind(this);
     }
 
     async handleRequest() {

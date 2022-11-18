@@ -5,10 +5,11 @@ import {
     Response
 } from 'express';
 import { systemDecorator } from '../../../decorators';
+import { Handler } from '../model';
 const { countInstances } = systemDecorator;
 
 @countInstances
-class getUsers {
+class GetUsers implements Handler  {
 
     private _req: Request | any;
     private _res: Response;
@@ -16,7 +17,6 @@ class getUsers {
     constructor(req: Request, res: Response) {
         this._req = req;
         this._res = res;
-        this.handleRequest = this.handleRequest;
     }
 
     async handleRequest() {
@@ -35,7 +35,7 @@ class getUsers {
 }
 
 @countInstances
-class getUser {
+class GetUser {
 
     private _req: Request | any;
     private _res: Response;
@@ -50,7 +50,7 @@ class getUser {
 
         // lack validate type de carateres query
         const { params: { id }, body } = this._req;
-        const user = await userModel.getUserForId(id);
+        const user = await userModel.GetUserForId(id);
         if (!user) return this._res.sendStatus(404);
 
         return this._res.json(userDto.single(user)).end();
@@ -59,7 +59,7 @@ class getUser {
 }
 
 @countInstances
-class postUserForBody {
+class GetUserBy {
 
     private _req: Request | any;
     private _res: Response;
@@ -72,19 +72,17 @@ class postUserForBody {
     async handleRequest() {
 
         // lack validate type de carateres query
-        const { body } = this._req;
-        const user = await userModel.getUser(body);
-        console.log('res getUserForBody', user, body);
+        const { params } = this._req;
+        const user = await userModel.getUser( params );
         if (!user) return this._res.sendStatus(404);
 
-        // userDto.single(user)
         return this._res.json(user).end();
     }
 
 }
 
 export {
-    getUser,
-    getUsers,
-    postUserForBody
+    GetUser,
+    GetUsers,
+    GetUserBy
 }

@@ -1,5 +1,9 @@
 module.exports = {
-  presets: ['@babel/preset-env', '@babel/preset-typescript', 'minify'],
+  presets: [
+    ['@babel/preset-env', { targets: { node: 'current' } }],
+    '@babel/preset-typescript',
+    'minify'
+  ],
   plugins: [
     [
       'module-resolver',
@@ -20,5 +24,6 @@ module.exports = {
         legacy: true
       }
     ]
-  ]
+  ],
+  ignore: ['**/*.test.*', '**/*.spec.*']
 };

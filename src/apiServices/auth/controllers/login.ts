@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { Account, Handler, modelAuthLogin, TokenGenerator } from "../model";
 import { Authorizer } from '../services';
+import { validateAttr } from '@middlewares/index'
 
 export class LoginHandler implements Handler {
 
@@ -16,31 +17,32 @@ export class LoginHandler implements Handler {
     async handleRequest() {
         try {
             const body = this.getRequestBody();
-            // validate result session Token
-            if ( !body ) this._res.status(404).end();
             const { username, password } = body;
             const sessionToken = await new Authorizer().generatorToken({ username, password }); // viene undefined
 
             sessionToken
-                ? this._res.json({...body, sessionToken}).end()
+                ? this._res.send({...body, sessionToken}).end()
                 : this._res.status(404).end()
 
         } catch (error) {
-            this._res.sendStatus(404).end();
+            this._res.status(404).end();
         }
 
     }
 
-    private getRequestBody(): Account {
+    private getRequestBody(): Account | any {
         try {
             const { body } = this._req;
-            const result = new modelAuthLogin(body);
+            const { username, password } = new modelAuthLogin(body);
+            const result = validateAttr('username', username)
+                .attr('password', password)
+                .toObject();
             const isValidateModel = Object.keys(result).length > 0;
             if( !isValidateModel ){ throw new Error('No se encontraron los datos'); }
             return result;
-        } catch (error) {
-            this._req.on('error', (error) => console.error(error));
-            this._res.sendStatus(404).end();
+        } catch (err) {
+            this._res.status(404).end();
+        } finally {
             return new modelAuthLogin({});
         }
     }
