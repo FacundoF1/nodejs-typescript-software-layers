@@ -9,7 +9,8 @@ module.exports = {
           '@decorators': './src/decorators',
           '@middlewares': './src/middlewares',
           '@routes': './src/routes',
-          '@services': './src/services'
+          '@services': './src/services',
+          '@app': './src/app.ts'
         }
       }
     ],
@@ -19,6 +20,5 @@ module.exports = {
         legacy: true
       }
     ]
-  ],
-  ignore: ['**/*.spec.ts']
+  ]
 };
