@@ -1,5 +1,9 @@
 module.exports = {
-  presets: ['@babel/preset-env', '@babel/preset-typescript', 'minify'],
+  presets: [
+    ['@babel/preset-env', { targets: { node: 'current' } }],
+    '@babel/preset-typescript',
+    'minify'
+  ],
   plugins: [
     [
       'module-resolver',
@@ -9,7 +13,8 @@ module.exports = {
           '@decorators': './src/decorators',
           '@middlewares': './src/middlewares',
           '@routes': './src/routes',
-          '@services': './src/services'
+          '@services': './src/services',
+          '@app': './src/app.ts'
         }
       }
     ],
@@ -20,5 +25,5 @@ module.exports = {
       }
     ]
   ],
-  ignore: ['**/*.spec.ts']
+  ignore: ['**/*.test.*', '**/*.spec.*']
 };

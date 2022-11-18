@@ -5,21 +5,18 @@ import { connectionNeDB } from '../../services/NeDb/dao';
 
 export const getUser = async (data: any) => {
     try {
-        const { data: response_data } = await axios.post(`http://localhost:3000/v1/users/body`, data);
-        console.log(response_data);
-        if ( Object.keys(response_data).length === 0 || response_data.length === 0 ) { throw new Error('auth getUser: not found data' + response_data) }
-        return response_data[0];
+        const { data: response } = await axios.get(`http://localhost:3000/users/${data.email}`);
+        if ( Object.keys(response).length === 0 || response.length === 0 ) { throw new Error('auth getUser: not found data' + response) }
+        return response[0];
     } catch (error: any) {
         console.error('getUser error: ', error.error);
         return error;
     }
-
 };
 
 export const createUser = async (user:any) => {
-    console.log(user);
     try {
-        const response: [] = await axios.post(`http://localhost:3000/v1/users`, user);
+        const response: [] = await axios.post(`http://localhost:3000/users`, user);
         console.log('response: ', response);
         return response;
     } catch (error: any) {
@@ -39,7 +36,6 @@ export class UserCredentialsDBAccess {
     public async getUserCredential(username: string, password: string): Promise<UserCredential | any> {
         try {
             const result = await getUser({ username, password });
-            console.log('getUserCredential: ', result);
             return result;
         } catch (error) {
             return error;

@@ -5,10 +5,11 @@ import {
     Response
 } from 'express';
 import { systemDecorator } from '../../../decorators';
+import { Handler } from '@apiServices/users/model';
 const { countInstances } = systemDecorator;
 
 @countInstances
-export class createUser {
+export class CreateUser implements Handler  {
 
     private _req: Request | any;
     private _res: Response;

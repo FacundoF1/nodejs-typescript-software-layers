@@ -98,7 +98,7 @@ router.post('/', controllers.CreateUser);
  *          500:
  *             description: Error en el servidor    
  */
-router.post('/body', controllers.PostUserForBody);
+router.get('/:email', controllers.GetUserBy);
 
 /**
  * @swagger

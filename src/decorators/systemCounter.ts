@@ -10,7 +10,6 @@ class Counter {
 }
 export class Monitor {
     public static printInstances(): string {
-        console.log( 'Counter.objectsCount', Counter.objectsCount );
         let response = '';
         Counter.objectsCount.forEach((value: number, key: string) => {
             response = response + `${key}: ${value} \n`
@@ -20,7 +19,6 @@ export class Monitor {
 }
 
 export function countInstances<T extends { new(...args: any[]): {} }>(constructor: T) {
-    console.log( 'Counter.objectsCount', Counter.objectsCount );
     return class extends constructor {
         abc = Counter.increment(constructor.name);
     };

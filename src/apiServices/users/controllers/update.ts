@@ -7,7 +7,7 @@ import { systemDecorator } from '../../../decorators';
 const { countInstances } = systemDecorator;
 
 @countInstances
-class updateUser {
+class UpdateUser {
 
     private _req: Request | any;
     private _res: Response;
@@ -36,5 +36,5 @@ class updateUser {
 }
 
 export {
-    updateUser
+    UpdateUser
 }
