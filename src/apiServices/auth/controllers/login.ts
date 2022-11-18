@@ -6,7 +6,7 @@ export class LoginHandler implements Handler {
 
     private _req: Request;
     private _res: Response;
-    private tokenGenerator: TokenGenerator
+    // private tokenGenerator: TokenGenerator
 
     constructor(req: Request, res: Response) {
         this._req = req;

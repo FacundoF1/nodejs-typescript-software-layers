@@ -3,26 +3,26 @@ import axios from 'axios';
 import { single } from './dto';
 import { connectionNeDB } from '../../services/NeDb/dao';
 
-export const getUser = async (data) => {
+export const getUser = async (data: any) => {
     try {
         const { data: response_data } = await axios.post(`http://localhost:3000/v1/users/body`, data);
         console.log(response_data);
         if ( Object.keys(response_data).length === 0 || response_data.length === 0 ) { throw new Error('auth getUser: not found data' + response_data) }
         return response_data[0];
-    } catch (error) {
+    } catch (error: any) {
         console.error('getUser error: ', error.error);
         return error;
     }
 
 };
 
-export const createUser = async (user) => {
+export const createUser = async (user:any) => {
     console.log(user);
     try {
         const response: [] = await axios.post(`http://localhost:3000/v1/users`, user);
         console.log('response: ', response);
         return response;
-    } catch (error) {
+    } catch (error: any) {
         console.error('error: ', error.error);
         return error;
     }

@@ -1,6 +1,5 @@
-import express from '@awaitjs/express';
+import express from 'express';
 import controller from './controllers';
-// import { expressCacheMiddleware } from '../../middleware/cache';
 
 const { LoginHandler } = controller;
 const router = express.Router();
@@ -30,6 +29,6 @@ const router = express.Router();
  *          500:
  *             description: Error en el servidor    
  */
-router.postAsync('/login', LoginHandler);
+router.post('/login', LoginHandler);
 
 export default router;
