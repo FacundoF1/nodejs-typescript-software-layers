@@ -1,5 +1,5 @@
 import router from './';
 
-export default (app) => {
+export default (app:any) => {
     app.use('/', router);
 };

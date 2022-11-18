@@ -2,14 +2,14 @@ export class Account {
     public username: string;
     public password: string;
 
-    constructor(data) {
+    constructor(data: object | any) {
         this.username = data.username;
         this.password = data.password;
     }
 }
 
 export class modelAuthLogin extends Account {
-    super(data) { };
+    super() { };
 }
 
 export interface Handler {

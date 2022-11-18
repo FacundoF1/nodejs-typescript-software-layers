@@ -1,3 +1,4 @@
+import { Request, Response } from 'express';
 import swaggerUi from "swagger-ui-express";
 import swaggerJsdoc from "swagger-jsdoc";
 import configSwaggerJsdoc from './swaggerDefinition.js';
@@ -15,9 +16,9 @@ const options = {
 
 const specs = swaggerJsdoc(options);
 
-export default (app) => {
+export default (app: any) => {
   // serve swagger
-  app.get("/api-docs.json", function (req, res) {
+  app.get("/api-docs.json", function (req: Request, res: Response) {
     // line 41
     res.setHeader("Content-Type", "application/json");
     res.send(specs);

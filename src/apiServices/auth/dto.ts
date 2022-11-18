@@ -8,7 +8,7 @@ const single = (resource: SessionToken): SessionToken => ({
   accessRights: resource.accessRights
 });
 
-const multiple = (resources) => resources.map((resource) => single(resource));
+const multiple = (resources: any) => resources.map((resource:any) => single(resource));
 
 export {
   single,

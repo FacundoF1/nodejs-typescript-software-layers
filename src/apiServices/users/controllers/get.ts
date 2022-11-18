@@ -16,6 +16,7 @@ class getUsers {
     constructor(req: Request, res: Response) {
         this._req = req;
         this._res = res;
+        this.handleRequest = this.handleRequest;
     }
 
     async handleRequest() {
@@ -28,7 +29,7 @@ class getUsers {
 
         const users = await userModel.getUsers(res_page, res_limit);
 
-        return this._res.send(userDto.multiple(users)).end();
+        return this._res.json(userDto.multiple(users));
     }
 
 }
@@ -42,6 +43,7 @@ class getUser {
     constructor(req: Request, res: Response) {
         this._req = req;
         this._res = res;
+        this.handleRequest = this.handleRequest;
     }
 
     async handleRequest() {
@@ -51,7 +53,7 @@ class getUser {
         const user = await userModel.getUserForId(id);
         if (!user) return this._res.sendStatus(404);
 
-        return this._res.send(userDto.single(user)).end();
+        return this._res.json(userDto.single(user)).end();
     }
 
 }

@@ -1,8 +1,7 @@
-import express from '@awaitjs/express';
+import express from 'express';
 import controllers from './controllers';
-import { redisMiddleware } from '../../middleware/cache';
+import { redisMiddleware } from '@middlewares/cache';
 
-const { getUsers, getUser, deleteUser, updateUser, createUser, postUserForBody } = controllers;
 const router = express.Router();
 
 /**
@@ -24,7 +23,7 @@ const router = express.Router();
  *          500:
  *             description: Error en el servidor    
  */
-router.getAsync('/', redisMiddleware, getUsers);
+router.get('/', redisMiddleware, controllers.GetUsers);
 
 /**
  * @swagger
@@ -45,7 +44,7 @@ router.getAsync('/', redisMiddleware, getUsers);
  *          500:
  *             description: Error en el servidor    
  */
-router.getAsync('/:id', getUser);
+router.get('/:id', redisMiddleware, controllers.GetUser);
 
 /**
  * @swagger
@@ -72,7 +71,7 @@ router.getAsync('/:id', getUser);
  *          500:
  *             description: Error en el servidor    
  */
-router.postAsync('/', createUser);
+router.post('/', controllers.CreateUser);
 
 /**
  * @swagger
@@ -99,7 +98,7 @@ router.postAsync('/', createUser);
  *          500:
  *             description: Error en el servidor    
  */
-router.postAsync('/body', postUserForBody);
+router.post('/body', controllers.PostUserForBody);
 
 /**
  * @swagger
@@ -126,7 +125,7 @@ router.postAsync('/body', postUserForBody);
  *          500:
  *             description: Error en el servidor    
  */
-router.patchAsync('/:id', updateUser);
+router.patch('/:id', controllers.UpdateUser);
 
 /**
  * @swagger
@@ -153,6 +152,6 @@ router.patchAsync('/:id', updateUser);
  *          500:
  *             description: Error en el servidor    
  */
-router.deleteAsync('/:id', deleteUser);
+router.delete('/:id', controllers.DeleteUser);
 
 export default router;
